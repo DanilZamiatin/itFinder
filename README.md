@@ -15,7 +15,7 @@
 4. Создаем requirements.txt (там лежат все установленные и подключенные пакеты проекта)
 
 
-    pip install -r requirements.txt 
+    pip frreeze > requirements.txt 
 ---
 5. Commit'им
 
