@@ -3,9 +3,9 @@ import uuid
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100),
-    slug = models.SlugField(),
-    created = models.DateTimeField(auto_now_add=True),
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True, null=True),
+    created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
@@ -13,29 +13,30 @@ class Tag(models.Model):
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=100),
-    slug = models.SlugField(),
-    description = models.TextField(null=True, blank=True),
-    tags = models.ManyToManyField(Tag, blank=True),
-    total_votes = models.IntegerField(default=0, null=True, blank=True),
-    votes_ratio = models.IntegerField(default=0, null=True, blank=True),
-    demo_link = models.CharField(max_length=500, null=True, blank=True),
-    source_link = models.CharField(max_length=500, null=True, blank=True),
-    created = models.DateTimeField(auto_now_add=True),
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False),
+    title = models.CharField(max_length=100, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    description = models.TextField(null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
+    total_votes = models.IntegerField(default=0, null=True, blank=True)
+    votes_ratio = models.IntegerField(default=0, null=True, blank=True)
+    demo_link = models.CharField(max_length=500, null=True, blank=True)
+    source_link = models.CharField(max_length=500, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
         return self.title
 
 
 class Review(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE),
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
     VOTE_TYPE = (
         ('up', 'Up Vote'),
         ('down', 'Down Vote'),
     )
-    review_text = models.TextField(null=True, blank=True),
-    value = models.CharField(max_length=200, choices=VOTE_TYPE),
+    review_text = models.TextField(null=True, blank=True, default='write your review_text here')
+    value = models.CharField(max_length=200, choices=VOTE_TYPE)
+    created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
