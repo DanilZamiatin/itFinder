@@ -12,4 +12,4 @@ def projects(request):
 def project(request, pk):
     projectObj = Project.objects.get(id=pk)
     tags = projectObj.tags.all()
-    return render(request, 'single-project.html', {project: projectObj})
+    return render(request, 'single-project.html', {'project': projectObj})
